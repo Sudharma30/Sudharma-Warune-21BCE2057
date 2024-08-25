@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: repeat(5, 50px);
+            gap: 5px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .cell.selected {
+            background-color: #d0f0d0;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Game Board</h1>
+        <div id="game-board">
+            <!-- The cells will be dynamically generated here -->
+        </div>
+        <button onclick="connect()">Connect to Game</button>
+        <div>
+            <input type="text" id="character-name" placeholder="Character Name">
+            <input type="number" id="new-x" placeholder="New X">
+            <input type="number" id="new-y" placeholder="New Y">
+            <button onclick="sendMove()">Move</button>
+        </div>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        let socket;
+
+        function createBoard() {
+            const board = document.getElementById('game-board');
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.id = 'cell-' + i;
+                cell.addEventListener('click', () => selectCell(i));
+                board.appendChild(cell);
+            }
+        }
+
+        function selectCell(index) {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => cell.classList.remove('selected'));
+            document.getElementById('cell-' + index).classList.add('selected');
+        }
+
+        function connect() {
+            socket = new WebSocket('ws://localhost:8090/game');
+
+            socket.onopen = function () {
+                document.getElementById('status').innerText = 'Connected to the server';
+                socket.send('JOIN');
+            };
+
+            socket.onmessage = function (event) {
+                const message = event.data;
+                document.getElementById('status').innerText = message;
+                updateBoard(message);
+            };
+
+            socket.onclose = function () {
+                document.getElementById('status').innerText = 'Disconnected from the server';
+            };
+
+            socket.onerror = function (error) {
+                document.getElementById('status').innerText = 'Error: ' + error.message;
+            };
+        }
+
+        function sendMove() {
+            const name = document.getElementById('character-name').value;
+            const newX = document.getElementById('new-x').value;
+            const newY = document.getElementById('new-y').value;
+            const message = `MOVE:${name}:${newX}:${newY}`;
+            socket.send(message);
+        }
+
+        function updateBoard(gameState) {
+            const cells = document.querySelectorAll('.cell');
+            const stateLines = gameState.split('\n');
+
+            stateLines.forEach((line, rowIndex) => {
+                const characters = line.split(' ');
+                characters.forEach((char, colIndex) => {
+                    const cellIndex = rowIndex * 5 + colIndex;
+                    cells[cellIndex].innerText = char !== '.' ? char : '';
+                });
+            });
+        }
+
+        window.onload = createBoard;
+    </script>
+</body>
+</html>
