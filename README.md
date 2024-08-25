@@ -44,29 +44,49 @@ The game is played on a 5x5 grid with each player controlling 5 characters. Play
    mvn spring-boot:run
 The server will start on port 8090.
 
-#### Web Client (Frontend)
-###### Prerequisites
+### Web Client (Frontend)
+#### Prerequisites
 
 A modern web browser (e.g., Chrome, Firefox)
 
-###### Setup
+#### Setup
 
 Navigate to the frontend directory:
-   ```bash
-   cd turn-based-chess-game/frontend
+      ```bash
+      cd turn-based-chess-game/frontend
 
 Open index.html in a web browser to view the game interface.
 
 #### WebSocket Communication
 The WebSocket server endpoint is ws://localhost:8090/game.
 
-#### Game Flow
-Players deploy their characters on the starting row.
-Players alternate turns, making one move per turn.
-Combat and invalid moves are handled according to the game rules.
-The game ends when one player eliminates all opponent's characters.
+## Game Rules
 
-#### Features
-Real-time updates using WebSockets
-Interactive web-based game interface
-Validation for moves and game state
+### Game Setup
+
+- The game is played on a 5x5 grid by two players.
+- Each player controls 5 characters: a mix of Pawns, Hero1, and Hero2.
+- Players arrange their characters on their respective starting rows.
+
+### Characters and Movement
+
+1. **Pawn**:
+   - Moves one block in any direction (Left, Right, Forward, Backward).
+   - Example command: `P1:L` (Pawn 1 moves Left).
+
+2. **Hero1**:
+   - Moves two blocks straight in any direction.
+   - Eliminates any opponent's character in its path.
+   - Example command: `H1:F` (Hero1 moves Forward).
+
+3. **Hero2**:
+   - Moves two blocks diagonally in any direction.
+   - Eliminates any opponent's character in its path.
+   - Example command: `H2:BR` (Hero2 moves Backward-Right).
+
+### Game Flow
+
+- Players alternate turns, making one move per turn.
+- If a character lands on an opponent's character, the opponent's character is removed.
+- Invalid moves are not allowed, and players must retry their turn if an invalid move is made.
+- The game ends when one player eliminates all of the opponent’s characters.
