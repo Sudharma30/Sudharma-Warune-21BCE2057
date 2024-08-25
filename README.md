@@ -12,10 +12,6 @@ This project implements a turn-based chess-like game with a server-client archit
 2. **WebSocket Layer**: Manages real-time communication between the server and clients.
 3. **Web Client**: Provides a web-based user interface for the game.
 
-## Game Rules
-
-The game is played on a 5x5 grid with each player controlling 5 characters. Players alternate turns to move characters and capture opponent's pieces.
-
 ## Setup and Run Instructions
 
 ### Server (Backend)
@@ -60,7 +56,8 @@ Open index.html in a web browser to view the game interface.
 The WebSocket server endpoint is ws://localhost:8090/game.
 
 ## Game Rules
-
+   The game is played on a 5x5 grid with each player controlling 5 characters. Players alternate turns to move characters and capture opponent's pieces.
+   
 ### Game Setup
 
 - The game is played on a 5x5 grid by two players.
