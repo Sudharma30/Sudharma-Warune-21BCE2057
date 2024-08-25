@@ -51,7 +51,7 @@ A modern web browser (e.g., Chrome, Firefox)
 
 #### Setup
 
-Navigate to the frontend directory:
+   Navigate to the frontend directory:
       ```bash
       cd turn-based-chess-game/frontend
 
