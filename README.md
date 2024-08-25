@@ -31,36 +31,42 @@ The game is played on a 5x5 grid with each player controlling 5 characters. Play
    ```bash
    git clone https://github.com/your-username/turn-based-chess-game.git
 
-Navigate to the backend directory:
-cd turn-based-chess-game/backend
+2. Navigate to the backend directory:
+   ```bash
+   cd turn-based-chess-game/backend
 
-Build the project:
-mvn clean install
+3. Build the project:
+   ```bash
+   mvn clean install
 
-Run the Spring Boot application:
-mvn spring-boot:run
+4. Run the Spring Boot application:
+   ```bash
+   mvn spring-boot:run
 The server will start on port 8090.
 
-Web Client (Frontend)
-Prerequisites
+#### Web Client (Frontend)
+###### Prerequisites
+
 A modern web browser (e.g., Chrome, Firefox)
-Setup
+
+###### Setup
+
 Navigate to the frontend directory:
+   ```bash
+   cd turn-based-chess-game/frontend
 
-
-cd turn-based-chess-game/frontend
 Open index.html in a web browser to view the game interface.
 
-WebSocket Communication
+#### WebSocket Communication
 The WebSocket server endpoint is ws://localhost:8090/game.
 
-Game Flow
+#### Game Flow
 Players deploy their characters on the starting row.
 Players alternate turns, making one move per turn.
 Combat and invalid moves are handled according to the game rules.
 The game ends when one player eliminates all opponent's characters.
 
-Features
+#### Features
 Real-time updates using WebSockets
 Interactive web-based game interface
 Validation for moves and game state
